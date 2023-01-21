@@ -25,20 +25,19 @@ def login_required(f):
     return decorated_function
 
 
-@app.route("/login/<msg>", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         session.clear()
-        ...
-        if data and data[1] == password:
-            return redirect("/")
-        else:
-            return redirect(f"/login/Invalid Login")
+        user_id = request.form.get("email")
+        session["user_id"] = user_id
+        return redirect("/")
     else:
         return render_template("login.html")
+
 
 @app.route("/")
 @login_required
