@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, session
 from flask_session import Session
-from sql import *
+from sql import load_messages, insert_message
 from tempfile import mkdtemp
 
 app = Flask(__name__)
