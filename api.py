@@ -2,7 +2,6 @@ import cohere
 from cohere.classify import Example
 co = cohere.Client('ZG1hp4UsOagPS7V8vOiSxkGMljolDMPi96KAvboq')
 # use chatgpt to generate more training data
-
 prompt = f"""  
 Input: I want someone to talk to
 Response: I am always here to listen to your worries!
@@ -25,14 +24,16 @@ Response: I completely think you should. It'd be helpful to take a breath of fre
 Input: I am feeling down
 Response:
 """
-response = co.generate(
-  model='command-xlarge-nightly',
-  prompt=prompt,
-  max_tokens=100,
-  temperature=0.8,
-  stop_sequences=["--"],
-  return_likelihoods='NONE')
-print('Prediction: {}'.format(response.generations[0].text))
+def generate(prompt):
+
+    response = co.generate(
+    model='command-xlarge-nightly',
+    prompt=prompt,
+    max_tokens=100,
+    temperature=0.8,
+    stop_sequences=["--"],
+    return_likelihoods='NONE')
+    return response.generations[0].text
 
 # examples = [
 #     Example("I am very depressed today", "negative"),
