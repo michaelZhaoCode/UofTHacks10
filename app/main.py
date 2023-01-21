@@ -6,7 +6,7 @@ from api import reply
 import openai
 from sum_img import summarize
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 app = Flask(__name__)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -78,17 +78,18 @@ def message():
 @app.route('/image/', methods=['GET'])
 def image():
     if session.get('text'):
-        session['text'] = f'''Input: My best friend stopped talking to me a few days ago and I am panicking
-                            Response: First take a deep breath, and then maybe once you're feeling better, try your best to talk over your problems with your friend
-                            -- 
-                            Input: I am feeling good today for a change!
-                            Response: That's awesome, I'm glad to know your feeling better about yourself!
-                            --
-                            Input: I want to actually go out today and enjoy myself
-                            Response: I completely think you should. It'd be helpful to take a breath of fresh air and enjoy nature'''
+        # session['text'] = f'''Input: My best friend stopped talking to me a few days ago and I am panicking
+        #                     Response: First take a deep breath, and then maybe once you're feeling better, try your best to talk over your problems with your friend
+        #                     -- 
+        #                     Input: I am feeling good today for a change!
+        #                     Response: That's awesome, I'm glad to know your feeling better about yourself!
+        #                     --
+        #                     Input: I want to actually go out today and enjoy myself
+        #                     Response: I completely think you should. It'd be helpful to take a breath of fresh air and enjoy nature'''
 
         text = session['text'].replace('--', '').replace('Input: ', '').replace('Response: ', '')
         text += f'\n\nSummary:'
+        print(text)
         prompt = summarize(text)
         print(prompt)
         response = openai.Image.create(
@@ -98,6 +99,7 @@ def image():
         )
         image_url = response['data'][0]['url']
         return image_url
+    return ''
 
 
 if __name__ == '__main__':
@@ -108,3 +110,4 @@ if __name__ == '__main__':
 {"message": "I want to make friends. Please help"}
 {"message": "I am so lonely"}
 {"email": "varun@email.com"}
+{"naive": "yes"}
