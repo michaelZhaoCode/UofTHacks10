@@ -1,45 +1,45 @@
-from flask import Flask, render_template, request, redirect, session
-from flask_session import Session
-from tempfile import mkdtemp
-from functools import wraps
-
+from flask import Flask, request, jsonify
+from sql import *
 
 app = Flask(__name__)
-app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
 
 
-def login_required(f):
-    """
-    Decorate routes to require login.
-
-    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if session.get("username") is None:
-            return redirect("/login/good")
-        return f(*args, **kwargs)
-    return decorated_function
-
-
-@app.route("/login", methods=["GET", "POST"])
+@app.route('/login/', methods=['POST'])
 def login():
-    """Log user in"""
+    email = request.get_json()
+    messages = load_messages(email)
+    print(email)
+    # TODO: give messages to someone
+    response = {
+        # Add this option to distinct the POST request
+        'email': email,
+        "METHOD": "POST"
+    }
+    return jsonify(response)
 
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-        session.clear()
-        user_id = request.form.get("email")
-        session["user_id"] = user_id
-        return redirect("/")
-    else:
-        return render_template("login.html")
+
+@app.route('/newmessage/', methods=['POST'])
+def add_record():
+    email = request.get_json()['email']
+    message = request.get_json()['message']
+    insert_message(email, message)
+
+    response = {
+        # Add this option to distinct the POST request
+        'email': email,
+        'message': message,
+        "METHOD": "POST"
+    }
+    return jsonify(response)
 
 
-@app.route("/")
-@login_required
+
+@app.route('/')
 def index():
-    pass
+    # A welcome message to test our server
+    return "<h1>Welcome to our medium-greeting-api!</h1>"
+
+
+if __name__ == '__main__':
+    # Threaded option to enable multiple instances for multiple user access support
+    app.run(threaded=True, port=5000)
