@@ -39,16 +39,15 @@ def message():
             big_string += '\n--'
             if i != len(user_data) - 1:
                 big_string += '\n'
+        response = generate(big_string)
+        new_message = f'Input: {message}\nResponse:{response}'
+        insert_message(email, new_message)
 
-        insert_message(email, message)
-
-        response = {
+        new_response = {
             # Add this option to distinct the POST request
-            'email': email,
-            'message': message,
-            "METHOD": "POST"
+            'response': response
         }
-        return jsonify(response)
+        return jsonify(new_response)
     else:
         return jsonify({
             "ERROR": "No email found. Please login."
