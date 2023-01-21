@@ -4,8 +4,9 @@ from sql import load_messages, insert_message
 from tempfile import mkdtemp
 from api import reply
 import openai
-openai.api_key = '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'
 from sum_img import summarize
+
+openai.api_key = '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'
 
 app = Flask(__name__)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -16,15 +17,27 @@ Session(app)
 
 @app.route('/login/', methods=['POST'])
 def login():
+    session.clear()
     session['text'] = ''
+    session['naive'] = "No"
     email = request.get_json()['email']
     session['email'] = email
-    messages = load_messages(email)
     print(email)
-    # TODO: give messages to someone
     response = {
         # Add this option to distinct the POST request
         'email': email,
+        "METHOD": "POST"
+    }
+    return jsonify(response)
+
+
+@app.route('/messagetype/', methods=['POST'])
+def messagetype():
+    naive = request.get_json()['naive']
+    session['naive'] = naive
+    response = {
+        # Add this option to distinct the POST request
+        'naive': naive,
         "METHOD": "POST"
     }
     return jsonify(response)
@@ -35,9 +48,8 @@ def message():
     if session.get('email') is not None:
         email = session['email']
         input_message = request.get_json()['message']
-        naive = request.get_json()['naive']
         big_string = ''
-        if naive != "Yes":
+        if session['naive'] != "Yes":
             user_data = load_messages(email)
 
             for i in range(len(user_data)):
@@ -62,6 +74,7 @@ def message():
             "ERROR": "No email found. Please login."
         })
 
+
 @app.route('/image/', methods=['GET'])
 def image():
     if session.get('text'):
@@ -79,13 +92,12 @@ def image():
         prompt = summarize(text)
         print(prompt)
         response = openai.Image.create(
-        prompt=prompt,
-        n=1,
-        size="1024x1024"
+            prompt=prompt,
+            n=1,
+            size="1024x1024"
         )
         image_url = response['data'][0]['url']
         return image_url
-        
 
 
 if __name__ == '__main__':
@@ -93,6 +105,6 @@ if __name__ == '__main__':
     app.run(threaded=True, port=5000)
 
 
-{"message": "I want to make friends. Please help"}
-{"message": "I am so lonely"}
-{"email": "varun@email.com"}
+# {"message": "I want to make friends. Please help"}
+# {"message": "I am so lonely"}
+# {"email": "varun@email.com"}
