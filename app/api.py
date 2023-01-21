@@ -1,5 +1,4 @@
 import cohere
-from cohere.classify import Example
 co = cohere.Client('ZG1hp4UsOagPS7V8vOiSxkGMljolDMPi96KAvboq')
 # use chatgpt to generate more training data
 prompt = f"""  
@@ -24,7 +23,7 @@ Response: I completely think you should. It'd be helpful to take a breath of fre
 Input: I am feeling down
 Response:
 """
-def generate(prompt):
+def reply(prompt):
 
     response = co.generate(
     model='command-xlarge-nightly',
