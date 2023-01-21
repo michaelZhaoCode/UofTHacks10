@@ -17,6 +17,14 @@ def insert_message(user: int, message:str):
     conn.commit()
 
 
+def load_messages(user: int) -> list[tuple]:
+    """Returns a list of current medications for specified user"""
+    command = f"""SELECT * FROM messages WHERE user = {user}"""
+    mycursor.execute(command)
+
+    return mycursor.fetchall()
+
+
 def remove_user(user: id):
     """Remove all messages from user"""
     command = f"DELETE FROM messages WHERE user = {user}"
@@ -29,6 +37,7 @@ def remove_message(user: id, message: str):
     command = f"DELETE FROM messages WHERE user = {user} AND message = '{message}'"
     mycursor.execute(command)
     conn.commit()
+
 
 def remove_specific(message_id: id):
     """Remove particular message from user"""

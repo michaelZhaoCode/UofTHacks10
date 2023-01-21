@@ -26,7 +26,7 @@ def login_required(f):
 
 
 @app.route("/login/<msg>", methods=["GET", "POST"])
-def login(msg):
+def login():
     """Log user in"""
 
     # User reached route via POST (as by submitting a form via POST)
@@ -38,7 +38,7 @@ def login(msg):
         else:
             return redirect(f"/login/Invalid Login")
     else:
-        return render_template("login.html", data=msg)
+        return render_template("login.html")
 
 @app.route("/")
 @login_required
