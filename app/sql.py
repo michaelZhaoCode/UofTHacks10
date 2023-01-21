@@ -20,7 +20,7 @@ def insert_message(user: str, message:str):
     conn.commit()
 
 
-def load_messages(user: int) -> list[tuple]:
+def load_messages(user: str) -> list[tuple]:
     """Returns a list of current medications for specified user"""
     conn = sqlite3.connect("mydatabase.db")
     mycursor = conn.cursor()
@@ -60,9 +60,9 @@ def remove_specific(message_id: int):
     mycursor.execute(command)
     conn.commit()
 
+
 # conn = sqlite3.connect("mydatabase.db")
 # mycursor = conn.cursor()
 #
-# print(load_messages("bob"))
 # mycursor.execute('SELECT * FROM messages')
 # print(mycursor.fetchall())
