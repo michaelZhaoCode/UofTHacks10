@@ -31,21 +31,21 @@ def message():
     if session.get('email') is not None:
         email = session['email']
         message = request.get_json()['message']
-        user_data = load_messages('varun@email.com')
+        user_data = load_messages(email)
         big_string = ''
         for i in range(len(user_data)):
             cur_tuple = user_data[i]
             big_string += cur_tuple[0]
-            big_string += '\n--'
-            if i != len(user_data) - 1:
-                big_string += '\n'
+            big_string += '\n--\n'
+        big_string += f'Input:{message}\nResponse:'
         response = generate(big_string)
         new_message = f'Input: {message}\nResponse:{response}'
         try:
             insert_message(email, new_message)
         except:
             print(email, new_message)
-        print(response)
+      
+        
         new_response = {
             # Add this option to distinct the POST request
             'response': response
