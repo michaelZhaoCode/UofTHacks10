@@ -11,6 +11,7 @@ def create_messages_table():
     mycursor.execute(command)
     conn.commit()
 
+
 def insert_message(user: str, message:str):
     """Insert new message into messages"""
     conn = sqlite3.connect("mydatabase.db")
@@ -21,15 +22,17 @@ def insert_message(user: str, message:str):
     conn.commit()
 
 
-def load_messages(user: int) -> list[tuple]:
-    """Returns a list of current medications for specified user"""
+def load_messages(user: str) -> list[str]:
+    """Returns a list of current messages for specified user"""
     conn = sqlite3.connect("mydatabase.db")
     mycursor = conn.cursor()
 
     command = f"""SELECT * FROM messages WHERE user = '{user}'"""
     mycursor.execute(command)
 
-    return mycursor.fetchall()
+    data = mycursor.fetchall()
+
+    return [item[2] for item in data]
 
 
 def remove_user(user: id):
