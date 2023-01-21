@@ -1,6 +1,4 @@
 import sqlite3
-# conn = sqlite3.connect("mydatabase.db")
-# mycursor = conn.cursor()
 
 def create_messages_table():
     """Initialize message table"""
@@ -27,15 +25,15 @@ def load_messages(user: str) -> list[str]:
     conn = sqlite3.connect("mydatabase.db")
     mycursor = conn.cursor()
 
-    command = f"""SELECT * FROM messages WHERE user = '{user}'"""
+    command = f"""SELECT message FROM messages WHERE user = '{user}'"""
     mycursor.execute(command)
 
     data = mycursor.fetchall()
 
-    return [item[2] for item in data]
+    return [item[0] for item in data]
 
 
-def remove_user(user: id):
+def remove_user(user: str):
     """Remove all messages from user"""
     conn = sqlite3.connect("mydatabase.db")
     mycursor = conn.cursor()
@@ -45,7 +43,7 @@ def remove_user(user: id):
     conn.commit()
 
 
-def remove_message(user: id, message: str):
+def remove_message(user: str, message: str):
     """Remove message from user"""
     conn = sqlite3.connect("mydatabase.db")
     mycursor = conn.cursor()
@@ -55,7 +53,7 @@ def remove_message(user: id, message: str):
     conn.commit()
 
 
-def remove_specific(message_id: id):
+def remove_specific(message_id: int):
     """Remove particular message from user"""
     conn = sqlite3.connect("mydatabase.db")
     mycursor = conn.cursor()
@@ -64,6 +62,9 @@ def remove_specific(message_id: id):
     mycursor.execute(command)
     conn.commit()
 
-# print(load_messages(2))
+# conn = sqlite3.connect("mydatabase.db")
+# mycursor = conn.cursor()
+#
+# print(load_messages("bob"))
 # mycursor.execute('SELECT * FROM messages')
 # print(mycursor.fetchall())
