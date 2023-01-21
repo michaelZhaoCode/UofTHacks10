@@ -15,9 +15,7 @@ Session(app)
 def login():
     email = request.get_json()['email']
     session['email'] = email
-    messages = load_messages(email)
     print(email)
-    # TODO: give messages to someone
     response = {
         # Add this option to distinct the POST request
         'email': email,
@@ -30,22 +28,24 @@ def login():
 def message():
     if session.get('email') is not None:
         email = session['email']
-        message = request.get_json()['message']
-        user_data = load_messages(email)
+        input_message = request.get_json()['message']
+        naive = request.get_json()['naive']
         big_string = ''
-        for i in range(len(user_data)):
-            cur_tuple = user_data[i]
-            big_string += cur_tuple[0]
-            big_string += '\n--\n'
-        big_string += f'Input:{message}\nResponse:'
+        if naive != "Yes":
+            user_data = load_messages(email)
+
+            for i in range(len(user_data)):
+                cur_tuple = user_data[i]
+                big_string += cur_tuple[0]
+                big_string += '\n--\n'
+        big_string += f'Input:{input_message}\nResponse:'
         response = generate(big_string)
-        new_message = f'Input: {message}\nResponse:{response}'
+        new_message = f'Input: {input_message}\nResponse:{response}'
         try:
             insert_message(email, new_message)
         except:
             print(email, new_message)
-      
-        
+
         new_response = {
             # Add this option to distinct the POST request
             'response': response
@@ -57,8 +57,6 @@ def message():
         })
 
 
-
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
     app.run(threaded=True, port=5000)
-
