@@ -95,4 +95,4 @@ if __name__ == '__main__':
 
 {"message": "I want to make friends. Please help"}
 {"message": "I am so lonely"}
-{"email": "varun@email.com"}
+{"email": "varun@email.com", "naive": "yes"}
