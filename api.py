@@ -4,40 +4,31 @@ co = cohere.Client('ZG1hp4UsOagPS7V8vOiSxkGMljolDMPi96KAvboq')
 # use chatgpt to generate more training data
 
 prompt = f"""  
-Given a user input and the classification, the program will return an appropriate message.
-
 Input: I want someone to talk to
-Classification: neutral
 Response: I am always here to listen to your worries!
 --  
 Input: I am having friendship troubles
-Classification: neutral
 Response: Could you please describe your problem a bit more? 
 --  
 Input: I am feeling useless
-Classification: negative
 Response: As I have gotten to know you, I can guarantee you that you are important and unique
 --  
 Input: My best friend stopped talking to me a few days ago and I am panicking
-Classification: negative
 Response: First take a deep breath, and then maybe once you're feeling better, try your best to talk over your problems with your friend
 -- 
 Input: I am feeling good today for a change!
-Classification: positive
 Response: That's awesome, I'm glad to know your feeling better about yourself!
 --
 Input: I want to actually go out today and enjoy myself
-Classification: positive
 Response: I completely think you should. It'd be helpful to take a breath of fresh air and enjoy nature
 --
-Input: I want to stop being so sad. Please help
-Classification: negative
+Input: I am feeling down
 Response:
 """
 response = co.generate(
-  model='xlarge',
+  model='command-xlarge-nightly',
   prompt=prompt,
-  max_tokens=40,
+  max_tokens=100,
   temperature=0.8,
   stop_sequences=["--"],
   return_likelihoods='NONE')
