@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/login/', methods=['POST'])
 def login():
-    email = request.get_json()
+    email = request.get_json()['email']
     messages = load_messages(email)
     print(email)
     # TODO: give messages to someone
