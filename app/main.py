@@ -41,8 +41,11 @@ def message():
                 big_string += '\n'
         response = generate(big_string)
         new_message = f'Input: {message}\nResponse:{response}'
-        insert_message(email, new_message)
-
+        try:
+            insert_message(email, new_message)
+        except:
+            print(email, new_message)
+        print(response)
         new_response = {
             # Add this option to distinct the POST request
             'response': response
@@ -53,12 +56,6 @@ def message():
             "ERROR": "No email found. Please login."
         })
 
-
-
-@app.route('/')
-def index():
-    # A welcome message to test our server
-    return "<h1>Welcome to our medium-greeting-api!</h1>"
 
 
 if __name__ == '__main__':
