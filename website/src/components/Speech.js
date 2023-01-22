@@ -33,10 +33,11 @@ function Speech() {
         // }
     };
 
-    const styles = {
-        color: 'red',
-        width: 50,
-        height: 50,
+    const styless = {
+        flex: '50%',
+        padding: '10px',
+        height: '10%',
+        fontSize: '30px'
     }
 
     const { speak } = useSpeechSynthesis();
@@ -79,7 +80,7 @@ function Speech() {
     return (
         <div className="chat-window">
             <div className="chat-header">
-
+                <p>Welcome! It's your Voice Assistant!</p>
             </div>
             {/* footer */}
             <div className="chat-body">
@@ -103,10 +104,7 @@ function Speech() {
                         );
                     })}
 
-                    <textarea
-                        value={value}
-                        onChange={(event) => setValue(event.target.value)}
-                    />
+                    
                 </ScrollToBottom>
 
             </div>
@@ -126,7 +124,7 @@ function Speech() {
         <button onClick={sendMessage}>&#9658;</button> */}
 
 
-                <button onClick={listen}>
+                <button onClick={listen} style={styless}>
                     🎤
                 </button>
                 {/* STOP BUTTON */}
@@ -143,9 +141,13 @@ function Speech() {
                     console.log('this should be empty:', value)
 
 
-                }} style={styles}>🎤🎤🎤</button>
+                }} style={styless} >🛑</button>                
                 {listening}
             </div>
+            <textarea
+                        value={value}
+                        onChange={(event) => setValue(event.target.value)}
+                    />
         </div>
 
     );
