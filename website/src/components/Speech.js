@@ -11,6 +11,26 @@ function Speech() {
             //   console.log(result);
         },
     });
+    const [messageList, setMessageList] = useState([]);
+    const [UserOrAI, setUserOrAI] = useState('user'); // whether or not this is robot OR USER
+
+    const sendMessage = async () => {
+        // if (currentMessage !== "") {
+        const messageData = {
+            author: UserOrAI, // whether or not this is robot OR USER
+            message: value,
+            time:
+                new Date(Date.now()).getHours() +
+                ":" +
+                new Date(Date.now()).getMinutes(),
+        };
+
+        //   await socket.emit("send_message", messageData);
+        setMessageList((list) => [...list, messageData]);
+        //clear my message console after the message is sent
+        //   setCurrentMessage("");
+        // }
+    };
 
     const styles = {
         color: 'red',
@@ -48,6 +68,24 @@ function Speech() {
             {/* footer */}
             <div className="chat-body">
                 <ScrollToBottom className="message-container">
+                    {messageList.map((messageContent) => {
+                        return (
+                            <div
+                                className="message"
+                                id={"user" === messageContent.author ? "you" : "other"}
+                            >
+                                <div>
+                                    <div className="message-content">
+                                        <p>{messageContent.message}</p>
+                                    </div>
+                                    <div className="message-meta">
+                                        <p id="time">{messageContent.time}</p>
+                                        <p id="author">{messageContent.author}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
 
                     <textarea
                         value={value}
@@ -78,6 +116,9 @@ function Speech() {
                 {/* STOP BUTTON */}
                 <button onClick={() => {
                     stop();
+                    setUserOrAI('user');
+                    sendMessage();
+
 
                     postSpeech().then((reply) => {
                         console.log("wow")
