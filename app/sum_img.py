@@ -1,5 +1,8 @@
 import cohere
-co = cohere.Client('ZG1hp4UsOagPS7V8vOiSxkGMljolDMPi96KAvboq')
+import os
+from dotenv import load_dotenv
+load_dotenv()
+co = cohere.Client(os.environ.get('cohere_key'))
 big_prompt = f"""Summarize the following text into a suitable text to image ai prompt
 
 I want someone to talk to
@@ -32,4 +35,4 @@ def summarize(prompt):
     temperature=0.8,
     stop_sequences=["--"],
     return_likelihoods='NONE')
-    return response.generations[0].text
+    return "Create a hopeful image about " + response.generations[0].text

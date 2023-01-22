@@ -62,7 +62,7 @@ def message():
                 big_string += '\n--\n'
         
         big_string += f'Input:{input_message}\nResponse:'
-        response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "")
+        response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
         new_message = f'Input: {input_message}\nResponse:{response}'
         session['text'] += new_message + '\n'
         try:
@@ -94,7 +94,7 @@ def image():
         #                     Input: I want to actually go out today and enjoy myself
         #                     Response: I completely think you should. It'd be helpful to take a breath of fresh air and enjoy nature'''
 
-        text = session['text'].replace('--', '').replace('Input: ', '').replace('Response: ', '')
+        text = session['text'].replace('--', '').replace('Input: ', '').replace('Response:', '')
         text += f'\n\nSummary:'
         print("*********", text, "*********")
         prompt = summarize(text)
@@ -117,4 +117,4 @@ if __name__ == '__main__':
 {"message": "I want to make friends. Please help"}
 {"message": "I am so lonely"}
 {"email": "varun@email.com"}
-{"naive": "yes"}
+{"naive": "No"}
