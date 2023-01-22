@@ -1,5 +1,9 @@
 import cohere
-co = cohere.Client('ZG1hp4UsOagPS7V8vOiSxkGMljolDMPi96KAvboq')
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+co = cohere.Client(os.environ.get('cohere_key'))
 # use chatgpt to generate more training data
 prompt = f"""  
 Input: I want someone to talk to

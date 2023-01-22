@@ -3,10 +3,14 @@ from flask_session import Session
 from sql import load_messages, insert_message
 from tempfile import mkdtemp
 from api import reply
+from dotenv import load_dotenv
+load_dotenv()
+import os
 import openai
 from sum_img import summarize
 
-openai.api_key = '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'
+# openai.api_key = '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'
+openai.api_key = os.environ.get('open_ai_key')
 
 app = Flask(__name__)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
