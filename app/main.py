@@ -44,7 +44,7 @@ def login():
 
     email = request.get_json()['email']
     session['email'] = email
-
+    print(session['email'])
     response = {
         # Add this option to distinct the POST request
         'email': email,
@@ -67,40 +67,36 @@ def messagetype():
 
 @app.route('/message/', methods=['POST'])
 def message():
-    if session.get('email') is not None:
-        email = session['email']
-        input_message = request.get_json()['message']
-        big_string = ''
-        if session['naive'] != "Yes":
-            user_data = load_messages(email)
 
-            for i in range(len(user_data)):
-                cur_tuple = user_data[i]
-                big_string += cur_tuple[0]
-                big_string += '\n--\n'
+    email = 'varun@email.com'
+    input_message = request.get_json()['message']
+    big_string = ''
+    if session['naive'] != "Yes":
+        user_data = load_messages(email)
 
-        big_string += f'Input:{input_message}\nResponse:'
-        if session['responses']:
-            response = session['responses'].pop(0)
-            sleep(3)
-        else:
-            response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
+        for i in range(len(user_data)):
+            cur_tuple = user_data[i]
+            big_string += cur_tuple[0]
+            big_string += '\n--\n'
 
-        new_message = f'Input: {input_message}\nResponse:{response}'
-        session['text'] += new_message + '\n'
-
-        insert_message(email, new_message)
-
-
-        new_response = {
-            # Add this option to distinct the POST request
-            'response': response
-        }
-        return jsonify(new_response)
+    big_string += f'Input:{input_message}\nResponse:'
+    if session['responses']:
+        response = session['responses'].pop(0)
+        sleep(3)
     else:
-        return jsonify({
-            "ERROR": "No email found. Please login."
-        })
+        response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
+
+    new_message = f'Input: {input_message}\nResponse:{response}'
+    session['text'] += new_message + '\n'
+
+    insert_message(email, new_message)
+
+
+    new_response = {
+        # Add this option to distinct the POST request
+        'response': response
+    }
+    return jsonify(new_response)
 
 
 @app.route('/image/', methods=['GET'])

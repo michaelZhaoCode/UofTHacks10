@@ -1,5 +1,5 @@
 import sqlite3
-
+from pprint import pprint
 def create_messages_table():
     """Initialize message table"""
     conn = sqlite3.connect("mydatabase.db")
