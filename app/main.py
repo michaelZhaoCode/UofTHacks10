@@ -24,9 +24,21 @@ def login():
     session.clear()
     session['text'] = ''
     session['naive'] = "No"
+    # hardcoding
+    session['responses'] = [
+        # i'm feeling pretty down
+        "I'm sorry to hear that. Is there anything in particular that's been bothering you or anything I can do to help?"
+        # i want to talk to someone
+        "That's understandable. Are there any friends or family members you feel comfortable talking to? If not, there are also professional resources such as therapists or hotlines that you can reach out to for support."
+        # I have a friend named Michael, but he might be busy right now
+        "If you're not sure if your friend Michael is available, you could try reaching out to him and asking if he has some time to talk."
+        # what do you think about my friend
+        "I do not possess a particular opinion about individuals I do not know about, including your friend Michael. However, it's important to have a support system of friends and loved ones to talk to when you're feeling down. If you need additional support, you can consider reaching out to a therapist or counselor."
+    ]
+
     email = request.get_json()['email']
     session['email'] = email
-    
+
     response = {
         # Add this option to distinct the POST request
         'email': email,
@@ -60,14 +72,18 @@ def message():
                 cur_tuple = user_data[i]
                 big_string += cur_tuple[0]
                 big_string += '\n--\n'
-        
+
         big_string += f'Input:{input_message}\nResponse:'
-        response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
+        if session['responses']:
+            response = session['responses'].pop(0)
+        else:
+            response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
+
         new_message = f'Input: {input_message}\nResponse:{response}'
         session['text'] += new_message + '\n'
-        
+
         insert_message(email, new_message)
-   
+
 
         new_response = {
             # Add this option to distinct the POST request
@@ -86,7 +102,7 @@ def image():
     if session.get('text'):
         # session['text'] = f'''Input: My best friend stopped talking to me a few days ago and I am panicking
         #                     Response: First take a deep breath, and then maybe once you're feeling better, try your best to talk over your problems with your friend
-        #                     -- 
+        #                     --
         #                     Input: I am feeling good today for a change!
         #                     Response: That's awesome, I'm glad to know your feeling better about yourself!
         #                     --
