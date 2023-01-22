@@ -8,6 +8,7 @@ load_dotenv()
 import os
 import openai
 from sum_img import summarize
+from time import sleep
 
 # openai.api_key = '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'
 openai.api_key = os.environ.get('open_ai_key')
@@ -27,11 +28,11 @@ def login():
     # hardcoding
     session['responses'] = [
         # i'm feeling pretty down
-        "I'm sorry to hear that. Is there anything in particular that's been bothering you or anything I can do to help?"
+        "I'm sorry to hear that. Is there anything in particular that's been bothering you or anything I can do to help?",
         # i want to talk to someone
-        "That's understandable. Are there any friends or family members you feel comfortable talking to? If not, there are also professional resources such as therapists or hotlines that you can reach out to for support."
+        "That's understandable. Are there any friends or family members you feel comfortable talking to? If not, there are also professional resources such as therapists or hotlines that you can reach out to for support.",
         # I have a friend named Michael, but he might be busy right now
-        "If you're not sure if your friend Michael is available, you could try reaching out to him and asking if he has some time to talk."
+        "If you're not sure if your friend Michael is available, you could try reaching out to him and asking if he has some time to talk.",
         # what do you think about my friend
         "I do not possess a particular opinion about individuals I do not know about, including your friend Michael. However, it's important to have a support system of friends and loved ones to talk to when you're feeling down. If you need additional support, you can consider reaching out to a therapist or counselor."
     ]
@@ -76,6 +77,7 @@ def message():
         big_string += f'Input:{input_message}\nResponse:'
         if session['responses']:
             response = session['responses'].pop(0)
+            sleep(3)
         else:
             response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
 
