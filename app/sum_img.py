@@ -1,6 +1,6 @@
 import cohere
 co = cohere.Client('ZG1hp4UsOagPS7V8vOiSxkGMljolDMPi96KAvboq')
-prompt = f"""Summarize the following text into a suitable text to image ai prompt
+big_prompt = f"""Summarize the following text into a suitable text to image ai prompt
 
 I want someone to talk to
 I am always here to listen to your worries!
@@ -21,11 +21,10 @@ I am feeling down
 There are many reasons to be happy! Is there anything I can do to help?
 
 Summary: "Feeling good, wanting to go out and enjoy, feeling down"
-
 """
 
 def summarize(prompt):
-    initial_prompt = prompt
+    initial_prompt = big_prompt
     response = co.generate(
     model='command-xlarge-nightly',
     prompt=initial_prompt + prompt,
