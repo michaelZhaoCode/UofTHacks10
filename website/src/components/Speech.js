@@ -40,14 +40,15 @@ function Speech() {
       }
 
     return (
-        <div>
-            <textarea
+        <div className="chat-window">
+            <div className="chat-header">
+            {/* <textarea
                 value={value}
                 onChange={(event) => setValue(event.target.value)}
             />
             <button onClick={listen}>
                 🎤
-            </button>
+            </button> */}
             {/* STOP BUTTON */}
             <button onClick={() => {
                 stop();
@@ -61,7 +62,27 @@ function Speech() {
                 
             }} style={styles}></button>
             {listening && <div>Go ahead I'm listening</div>}
+            </div>
+            {/* footer */}
+            <div className="chat-body">
+                
+            </div>
+            <div className="chat-footer">
+        {/* <input
+          type="text"
+          value={currentMessage}
+          placeholder="Message..."
+          onChange={(event) => {
+            setCurrentMessage(event.target.value);
+          }}
+          onKeyPress={(event) => {
+            event.key === "Enter" && sendMessage();
+          }}
+        />
+        <button onClick={sendMessage}>&#9658;</button> */}
+      </div>
         </div>
+        
     );
 }
 

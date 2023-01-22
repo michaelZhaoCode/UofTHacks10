@@ -36,21 +36,21 @@ function Dashboard() {
 
     return (
         <>
-            <div className="dashboard">
-                <div className="dashboard__container">
-                    Logged in as
-                    <div>{name}</div>
+            {/* <div className="dashboard"> */}
+                {/* <div className="dashboard__container"> */}
+                    {/* Logged in as */}
+                    {/* <div>{name}</div> */}
                     {/* <div>{user?.email}</div> */}
-                    <img
-                        src={pfp}
-                        alt="new"
-                        style={{ width: 300, height: 200 }}
-                    />
-                    <button className="dashboard__btn" onClick={logout}>
-                        Logout
-                    </button>
-                </div>
-            </div>
+                    {/* <img */}
+                        {/* // src={pfp} */}
+                        {/* // alt="new" */}
+                        {/* // style={{ width: 300, height: 200 }} */}
+                    {/* // /> */}
+                    {/* <button className="dashboard__btn" onClick={logout}> */}
+                        {/* Logout */}
+                    {/* </button> */}
+                {/* </div> */}
+            {/* </div> */}
 
             {/* display docID of the user */}
             {/* <h1> {docRef}</h1> */}
