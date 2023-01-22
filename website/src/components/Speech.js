@@ -14,6 +14,8 @@ function Speech() {
     const [messageList, setMessageList] = useState([]);
     const [UserOrAI, setUserOrAI] = useState('user'); // whether or not this is robot OR USER
     const [countStop, setCountStop] = useState(0);
+    const { speak } = useSpeechSynthesis()
+
 
     const sendMessage = async (messageValue, user_author) => {
         // if (currentMessage !== "") {
@@ -39,8 +41,15 @@ function Speech() {
         height: '10%',
         fontSize: '30px'
     }
+    const stylesss = {
+        flex: '50%',
+        padding: '10px',
+        height: '90%',
+        fontSize: '15px',
+        // margin: '20px'
+        borderRadius: '15px'
+    }
 
-    const { speak } = useSpeechSynthesis();
 
     // send the user's speech (converted to text) to the backend
     const postSpeech = async () => {
@@ -66,6 +75,7 @@ function Speech() {
             // setValue('asdasdasdasd');
             // sendMessage();
             sendMessage(responses[countStop], 'ai');
+            speak({ text: responses[countStop] });
 
             console.log(response);
             console.log('this should be the speech: ', value)
@@ -77,40 +87,51 @@ function Speech() {
         }
     }
 
+    const styleLogo = {
+        flex: '50%',
+        padding: '10px',
+        height: '30%',
+        borderRadius: '40px'
+        // fontSize: '30px'
+    }
+
     return (
-        <div className="chat-window">
-            <div className="chat-header">
-                <p>Welcome! It's your Voice Assistant!</p>
-            </div>
-            {/* footer */}
-            <div className="chat-body">
-                <ScrollToBottom className="message-container">
-                    {messageList.map((messageContent) => {
-                        return (
-                            <div
-                                className="message"
-                                id={"user" === messageContent.author ? "you" : "other"}
-                            >
-                                <div>
-                                    <div className="message-content">
-                                        <p>{messageContent.message}</p>
-                                    </div>
-                                    <div className="message-meta">
-                                        <p id="time">{messageContent.time}</p>
-                                        <p id="author">{messageContent.author}</p>
+        <>
+            <div className="chat-window">
+            <img src='https://cdn.discordapp.com/attachments/1064691884741623808/1066565171478278244/uTalk.png' style={styleLogo} />
+
+                <div className="chat-header">
+                    <p>Welcome! It's your Voice Assistant!</p>
+                </div>
+                {/* footer */}
+                <div className="chat-body">
+                    <ScrollToBottom className="message-container">
+                        {messageList.map((messageContent) => {
+                            return (
+                                <div
+                                    className="message"
+                                    id={"user" === messageContent.author ? "you" : "other"}
+                                >
+                                    <div>
+                                        <div className="message-content">
+                                            <p>{messageContent.message}</p>
+                                        </div>
+                                        <div className="message-meta">
+                                            <p id="time">{messageContent.time}</p>
+                                            <p id="author">{messageContent.author}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
 
-                    
-                </ScrollToBottom>
 
-            </div>
+                    </ScrollToBottom>
 
-            <div className="chat-footer">
-                {/* <input
+                </div>
+
+                <div className="chat-footer">
+                    {/* <input
           type="text"
           value={currentMessage}
           placeholder="Message..."
@@ -124,31 +145,33 @@ function Speech() {
         <button onClick={sendMessage}>&#9658;</button> */}
 
 
-                <button onClick={listen} style={styless}>
-                    🎤
-                </button>
-                {/* STOP BUTTON */}
-                <button onClick={() => {
-                    stop();
-                    setUserOrAI('user');
-                    sendMessage(value, 'user');
-
-
-                    postSpeech().then((reply) => {
-                        console.log("wow")
-                        speak({ text: reply })
-                    });
-                    console.log('this should be empty:', value)
-
-
-                }} style={styless} >🛑</button>                
-                {listening}
-            </div>
-            <textarea
+                    <button onClick={listen} style={styless}>
+                        🎤
+                    </button>
+                    <textarea style={stylesss}
                         value={value}
                         onChange={(event) => setValue(event.target.value)}
                     />
-        </div>
+                    {/* STOP BUTTON */}
+                    <button onClick={() => {
+                        stop();
+                        setUserOrAI('user');
+                        sendMessage(value, 'user');
+
+
+                        postSpeech().then((reply) => {
+                            console.log("wow")
+                            speak({ text: reply })
+                        });
+                        console.log('this should be empty:', value)
+
+
+                    }} style={styless} >🛑</button>
+                    {listening}
+                </div>
+
+            </div>
+        </>
 
     );
 }
