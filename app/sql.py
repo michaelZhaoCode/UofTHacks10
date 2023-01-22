@@ -76,3 +76,5 @@ def initialize_inserts():
 #
 # mycursor.execute('SELECT * FROM messages')
 # print(mycursor.fetchall())
+
+load_messages("varun@email.com")
