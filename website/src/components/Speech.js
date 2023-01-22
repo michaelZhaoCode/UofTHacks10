@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSpeechRecognition, useSpeechSynthesis } from 'react-speech-kit';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 
 function Speech() {
@@ -46,12 +47,16 @@ function Speech() {
             </div>
             {/* footer */}
             <div className="chat-body">
-            <textarea
-                    value={value}
-                    onChange={(event) => setValue(event.target.value)}
-                />
+                <ScrollToBottom className="message-container">
+
+                    <textarea
+                        value={value}
+                        onChange={(event) => setValue(event.target.value)}
+                    />
+                </ScrollToBottom>
 
             </div>
+
             <div className="chat-footer">
                 {/* <input
           type="text"
@@ -66,7 +71,7 @@ function Speech() {
         />
         <button onClick={sendMessage}>&#9658;</button> */}
 
-                
+
                 <button onClick={listen}>
                     🎤
                 </button>
