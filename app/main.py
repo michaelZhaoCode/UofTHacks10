@@ -9,7 +9,7 @@ import os
 import openai
 from sum_img import summarize
 from time import sleep
-
+from flask_cors import CORS, cross_origin
 # openai.api_key = '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'
 openai.api_key = os.environ.get('open_ai_key')
 
@@ -18,7 +18,8 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
+cors = CORS(app)
+app.config['CONFIG_HEADERS'] = 'Content-Type'
 
 @app.route('/login/', methods=['POST'])
 def login():
@@ -44,6 +45,7 @@ def login():
 
     email = request.get_json()['email']
     session['email'] = email
+    print(session['email'])
 
     response = {
         # Add this option to distinct the POST request
