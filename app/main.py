@@ -65,10 +65,9 @@ def message():
         response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
         new_message = f'Input: {input_message}\nResponse:{response}'
         session['text'] += new_message + '\n'
-        try:
-            insert_message(email, new_message)
-        except:
-            pass
+        
+        insert_message(email, new_message)
+   
 
         new_response = {
             # Add this option to distinct the POST request

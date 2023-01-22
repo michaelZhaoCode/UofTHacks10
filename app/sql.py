@@ -14,9 +14,7 @@ def insert_message(user: str, message:str):
     """Insert new message into messages"""
     conn = sqlite3.connect("mydatabase.db")
     mycursor = conn.cursor()
-
-    command = f"INSERT INTO messages (user, message) VALUES ('{user}', '{message}')"
-    mycursor.execute(command)
+    mycursor.execute(f"INSERT INTO messages (user, message) VALUES (?, ?)", (user, message))
     conn.commit()
 
 
