@@ -17,58 +17,43 @@ function Speech() {
         height: 50,
     }
 
-    const { speak } = useSpeechSynthesis(); 
+    const { speak } = useSpeechSynthesis();
 
     // send the user's speech (converted to text) to the backend
     const postSpeech = async () => {
         try {
-          const body = { value }; // convert to JSON since body needs to be in JSON format
-          const response = await fetch('http://127.0.0.1:5000/message/', {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body)
-          });
-          console.log(response);
-          console.log('this should be the speech: ', value)
-          setValue('');
-          return response.response;
+            const body = { value }; // convert to JSON since body needs to be in JSON format
+            const response = await fetch('http://127.0.0.1:5000/message/', {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            console.log(response);
+            console.log('this should be the speech: ', value)
+            setValue('');
+            return response.response;
 
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      }
+    }
 
     return (
         <div className="chat-window">
             <div className="chat-header">
-            {/* <textarea
-                value={value}
-                onChange={(event) => setValue(event.target.value)}
-            />
-            <button onClick={listen}>
-                🎤
-            </button> */}
-            {/* STOP BUTTON */}
-            <button onClick={() => {
-                stop();
 
-                postSpeech().then((reply) => {
-                    console.log("wow")
-                    speak({text : reply})
-                });
-                console.log('this should be empty:', value)
-
-                
-            }} style={styles}></button>
-            {listening && <div>Go ahead I'm listening</div>}
             </div>
             {/* footer */}
             <div className="chat-body">
-                
+            <textarea
+                    value={value}
+                    onChange={(event) => setValue(event.target.value)}
+                />
+
             </div>
             <div className="chat-footer">
-        {/* <input
+                {/* <input
           type="text"
           value={currentMessage}
           placeholder="Message..."
@@ -80,9 +65,27 @@ function Speech() {
           }}
         />
         <button onClick={sendMessage}>&#9658;</button> */}
-      </div>
+
+                
+                <button onClick={listen}>
+                    🎤
+                </button>
+                {/* STOP BUTTON */}
+                <button onClick={() => {
+                    stop();
+
+                    postSpeech().then((reply) => {
+                        console.log("wow")
+                        speak({ text: reply })
+                    });
+                    console.log('this should be empty:', value)
+
+
+                }} style={styles}>🎤🎤🎤</button>
+                {listening}
+            </div>
         </div>
-        
+
     );
 }
 
