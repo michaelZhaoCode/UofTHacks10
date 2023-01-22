@@ -25,7 +25,11 @@ function Login() {
         mode: 'cors',
         crossorigin: 'true',
         headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "http://127.0.0.1:5000", 'Access-Control-Allow-Credentials': 'true' },
-        body: JSON.stringify(body),
+        body: JSON.stringify(
+          {
+            "email": body
+          }
+        ),
       });
       console.log(response);
     } catch (error) {
