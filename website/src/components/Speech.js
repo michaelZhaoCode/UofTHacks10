@@ -57,14 +57,7 @@ function Speech() {
                     "message": value
                 })
             });
-            const responses = [
-                "I'm sorry to hear that. Is there anything in particular that's been bothering you or anything I can do to help?",
-                "That's understandable. Are there any friends or family members you feel comfortable talking to? If not, there are also professional resources such as therapists or hotlines that you can reach out to for support.",
-                "If you're not sure if your friend Michael is available, you could try reaching out to him and asking if he has some time to talk.",
-                "I do not possess a particular opinion about individuals I do not know about, including your friend Michael. However, it's important to have a support system of friends and loved ones to talk to when you're feeling down. If you need additional support, you can consider reaching out to a therapist or counselor.",
-                "I do not have the ability to know or remember information about you unless you have provided that information to me before. However, I can tell you that Black Forest Cake is a traditional German chocolate cake that usually layers chocolate cake, whipped cream and cherries. It is a delicious and popular cake enjoyed by many people around the world.",
-                "I don't have the ability to know or predict if your friend Michael will like Black Forest Cake or any other food. Taste preferences can vary widely from person to person and depend on many factors. It would be best to ask your friend directly or offer them a slice and see what they think."
-            ];
+            
             console.log(responses[countStop]);
             setCountStop(countStop + 1);
             // setUserOrAI('ai');
@@ -141,29 +134,21 @@ function Speech() {
 
                 </div>
 
-            <div className="chat-footer">
-                {/* <input
-          type="text"
-          value={currentMessage}
-          placeholder="Message..."
-          onChange={(event) => {
-            setCurrentMessage(event.target.value);
-          }}
-          onKeyPress={(event) => {
-            event.key === "Enter" && sendMessage();
-          }}
-        />
-        <button onClick={sendMessage}>&#9658;</button> */}
+                <div className="chat-footer">
 
 
-                <button onClick={listen}>
-                    🎤
-                </button>
-                {/* STOP BUTTON */}
-                <button onClick={() => {
-                    stop();
-                    setUserOrAI('user');
-                    sendMessage(value, 'user');
+
+                    <button onClick={listen} style={styless}>
+                        🎤
+                    </button>
+                    <textarea style={stylesss}
+                        value={value}
+                        onChange={(event) => setValue(event.target.value)}
+                    />
+                    <button onClick={() => {
+                        stop();
+                        setUserOrAI('user');
+                        sendMessage(value, 'user');
 
 
                         postSpeech().then((reply) => {
