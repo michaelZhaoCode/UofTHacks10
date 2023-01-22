@@ -3,7 +3,7 @@
 import { useContext, useState, useEffect } from 'react'
 import Player from './Player'
 import { AppContext, AppContextProvider } from './Context';
-import axios from 'axios';
+// import axios from 'axios';
 import Speech from './Speech';
 
 

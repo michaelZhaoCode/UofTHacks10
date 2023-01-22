@@ -13,12 +13,13 @@ function Speech() {
     });
     const [messageList, setMessageList] = useState([]);
     const [UserOrAI, setUserOrAI] = useState('user'); // whether or not this is robot OR USER
+    const [countStop, setCountStop] = useState(0);
 
-    const sendMessage = async () => {
+    const sendMessage = async (messageValue, user_author) => {
         // if (currentMessage !== "") {
         const messageData = {
-            author: UserOrAI, // whether or not this is robot OR USER
-            message: value,
+            author: user_author, // whether or not this is robot OR USER
+            message: messageValue,
             time:
                 new Date(Date.now()).getHours() +
                 ":" +
@@ -50,6 +51,21 @@ function Speech() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
+            const responses = [
+                "I'm sorry to hear that. Is there anything in particular that's been bothering you or anything I can do to help?",
+                "That's understandable. Are there any friends or family members you feel comfortable talking to? If not, there are also professional resources such as therapists or hotlines that you can reach out to for support.",
+                "If you're not sure if your friend Michael is available, you could try reaching out to him and asking if he has some time to talk.",
+                "I do not possess a particular opinion about individuals I do not know about, including your friend Michael. However, it's important to have a support system of friends and loved ones to talk to when you're feeling down. If you need additional support, you can consider reaching out to a therapist or counselor.",
+                "I do not have the ability to know or remember information about you unless you have provided that information to me before. However, I can tell you that Black Forest Cake is a traditional German chocolate cake that usually layers chocolate cake, whipped cream and cherries. It is a delicious and popular cake enjoyed by many people around the world.",
+                "I don't have the ability to know or predict if your friend Michael will like Black Forest Cake or any other food. Taste preferences can vary widely from person to person and depend on many factors. It would be best to ask your friend directly or offer them a slice and see what they think."
+            ];
+            console.log(responses[countStop]);
+            setCountStop(countStop + 1);
+            // setUserOrAI('ai');
+            // setValue('asdasdasdasd');
+            // sendMessage();
+            sendMessage(responses[countStop], 'ai');
+
             console.log(response);
             console.log('this should be the speech: ', value)
             setValue('');
@@ -117,7 +133,7 @@ function Speech() {
                 <button onClick={() => {
                     stop();
                     setUserOrAI('user');
-                    sendMessage();
+                    sendMessage(value, 'user');
 
 
                     postSpeech().then((reply) => {
