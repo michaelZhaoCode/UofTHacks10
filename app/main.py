@@ -73,6 +73,9 @@ def message():
     email = 'varun@email.com'
     input_message = request.get_json()['message']
     big_string = ''
+    if session.get('text') is None:
+        session['text'] = ""
+
     if session['naive'] != "Yes":
         user_data = load_messages(email)
 
@@ -103,8 +106,8 @@ def message():
 
 @app.route('/image/', methods=['GET'])
 def image():
-    print("*********", session['text'], "*********")
     if session.get('text'):
+        print("*********", session['text'], "*********")
         # session['text'] = f'''Input: My best friend stopped talking to me a few days ago and I am panicking
         #                     Response: First take a deep breath, and then maybe once you're feeling better, try your best to talk over your problems with your friend
         #                     --
