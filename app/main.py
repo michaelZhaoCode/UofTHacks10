@@ -76,20 +76,17 @@ def message():
     if session.get('text') is None:
         session['text'] = ""
 
-    if session['naive'] != "Yes":
-        user_data = load_messages(email)
 
-        for i in range(len(user_data)):
-            cur_tuple = user_data[i]
-            big_string += cur_tuple[0]
-            big_string += '\n--\n'
+    user_data = load_messages(email)
+
+    for i in range(len(user_data)):
+        cur_tuple = user_data[i]
+        big_string += cur_tuple[0]
+        big_string += '\n--\n'
 
     big_string += f'Input:{input_message}\nResponse:'
-    if session['responses']:
-        response = session['responses'].pop(0)
-        sleep(3)
-    else:
-        response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
+
+    response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
 
     new_message = f'Input: {input_message}\nResponse:{response}'
     session['text'] += new_message + '\n'
