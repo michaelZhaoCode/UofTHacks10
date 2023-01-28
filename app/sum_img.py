@@ -35,4 +35,8 @@ def summarize(prompt):
     temperature=0.8,
     stop_sequences=["--"],
     return_likelihoods='NONE')
-    return "Create a hopeful image about " + response.generations[0].text
+    print('*****', response.generations[0].text, '*****')
+    text = response.generations[0].text
+    if '"' in text:
+        text = text[:text.rindex('"')]
+    return "Create a hopeful image about " + text

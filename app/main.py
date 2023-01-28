@@ -20,7 +20,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 cors = CORS(app)
 app.config['CONFIG_HEADERS'] = 'Content-Type'
-
+TEXT = ['']
 @app.route('/login/', methods=['POST'])
 def login():
     session.clear()
@@ -89,7 +89,7 @@ def message():
     response = reply(big_string).replace('Thank you for your response!', '').replace("\n", "").replace('--', '').strip()
 
     new_message = f'Input: {input_message}\nResponse:{response}'
-    session['text'] += new_message + '\n'
+    TEXT[0] += new_message + '\n'
 
     insert_message(email, new_message)
 
@@ -103,30 +103,23 @@ def message():
 
 @app.route('/image/', methods=['GET'])
 def image():
-    if session.get('text'):
-        print("*********", session['text'], "*********")
-        # session['text'] = f'''Input: My best friend stopped talking to me a few days ago and I am panicking
-        #                     Response: First take a deep breath, and then maybe once you're feeling better, try your best to talk over your problems with your friend
-        #                     --
-        #                     Input: I am feeling good today for a change!
-        #                     Response: That's awesome, I'm glad to know your feeling better about yourself!
-        #                     --
-        #                     Input: I want to actually go out today and enjoy myself
-        #                     Response: I completely think you should. It'd be helpful to take a breath of fresh air and enjoy nature'''
 
-        text = session['text'].replace('--', '').replace('Input: ', '').replace('Response:', '')
-        text += f'\n\nSummary:'
-        print("*********", text, "*********")
-        prompt = summarize(text)
-        print("*********", prompt, "*********")
-        response = openai.Image.create(
-            prompt=prompt,
-            n=1,
-            size="1024x1024"
-        )
-        image_url = response['data'][0]['url']
-        return image_url
-    return jsonify({"response": "Not text"})
+
+      
+        
+    new_text = TEXT[0].replace('--', '').replace('Input: ', '').replace('Response:', '')
+    new_text += f'\n\nSummary:'
+    # print("*********", text, "*********")
+    prompt = summarize(new_text)
+    
+    response = openai.Image.create(
+        prompt=prompt,
+        n=1,
+        size="1024x1024"
+    )
+    image_url = response['data'][0]['url']
+    return image_url
+
 
 
 if __name__ == '__main__':
