@@ -103,10 +103,6 @@ def message():
 
 @app.route('/image/', methods=['GET'])
 def image():
-
-
-      
-        
     new_text = TEXT[0].replace('--', '').replace('Input: ', '').replace('Response:', '')
     new_text += f'\n\nSummary:'
     # print("*********", text, "*********")
@@ -118,7 +114,7 @@ def image():
         size="1024x1024"
     )
     image_url = response['data'][0]['url']
-    return image_url
+    return jsonify(image_url)
 
 
 
