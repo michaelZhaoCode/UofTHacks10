@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useSpeechRecognition, useSpeechSynthesis } from 'react-speech-kit';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { Link } from 'react-router-dom';
+import { AppContext } from './Context';
 
 function Speech() {
     const [value, setValue] = useState('');
@@ -14,11 +15,41 @@ function Speech() {
     const [messageList, setMessageList] = useState([]);
     const [UserOrAI, setUserOrAI] = useState('user'); // whether or not this is robot OR USER
     const [countStop, setCountStop] = useState(0);
-
-    function sleep(time) {
-        return new Promise((resolve) => setTimeout(resolve, time)
-        )
+    const { resp, setResp } = useContext(AppContext);
+    const DalleGet = async () => { 
+        try {
+            // const body = { value }; // convert to JSON since body needs to be in JSON format
+            // const responses = [];
+            await fetch('http://127.0.0.1:5000/image/')
+                .then(response => {
+                    console.log(response, resp);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('test');
+                    console.log(data);
+                    setResp(data);
+                    console.log(resp);
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+            // console.log(response)
+            // response.json().then((data) => {
+                // setResp(data.response);
+            // })
+            
+        } catch (error) {
+            console.log(error);
+        } 
     }
+
+    // direct to the DALL-E2 Image page
+    useEffect(() => {
+        if (resp !== '') {
+            console.log('useEffect ', resp)
+        }
+    }, [resp])
 
     const sendMessage = async (messageValue, user_author) => {
         // if (currentMessage !== "") {
@@ -38,36 +69,45 @@ function Speech() {
         // }
     };
 
-    const styles = {
-        color: 'red',
-        width: 50,
-        height: 50,
-    }
-
     const { speak } = useSpeechSynthesis();
 
     // send the user's speech (converted to text) to the backend
     const postSpeech = async () => {
         try {
+
             const body = { value }; // convert to JSON since body needs to be in JSON format
+            // const responses = [];
             const response = await fetch('http://127.0.0.1:5000/message/', {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                // mode: 'no-cors',
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin" : '*',
+                    "Access-Control-Allow-Headers" : '*',
+                    "Access-Control-Allow-Methods" : 'GET, POST, PUT, DELETE'
+                },
                 body: JSON.stringify({
                     "message": value
                 })
             });
-            
-            console.log(responses[countStop]);
-            setCountStop(countStop + 1);
+            // console.log(await response.json())
+            let resp = "";
+            await response.json().then((data) => {
+                console.log(data)
+                resp = data.response;
+            })
+            // console.log(resp)
+            // responses.push(resp);
+            sendMessage(resp, 'ai');
+            speak({ text: resp })
+            // console.log(responses[countStop]);
+            // setCountStop(countStop + 1);
             // setUserOrAI('ai');
             // setValue('asdasdasdasd');
-            // sendMessage();
-            sendMessage(responses[countStop], 'ai');
-            speak({ text: responses[countStop] })
-
-            // console.log(response);
-            console.log('this should be the speech: ', value);
+            // sendMessage(responses[countStop], 'ai');
+            // speak({ text: responses[countStop] })
+            // sendMessage(response);
+            // console.log(responses[countStop]);
             setValue('');
             // return response.response;
 
@@ -163,8 +203,18 @@ function Speech() {
                 </div>
 
                 <div className="chat-footer2">
+
                     <Link to="/dalle">
-                        <button style={styless}>🔚</button>
+                        <button 
+                            style={styless}
+                            onClick={async () =>{
+                                await DalleGet();
+                                console.log(resp);
+                            }
+
+                            }
+                            >🔚
+                        </button>
                     </Link>
                 </div>
 
@@ -176,7 +226,7 @@ function Speech() {
 
                     {/* </a> */}
                 </div>
-
+            
             </div>
         </>
 

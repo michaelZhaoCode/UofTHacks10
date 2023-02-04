@@ -1,13 +1,15 @@
-import dalle from '../img/dalle.png'
+import React, { useContext } from 'react'
+import dalle from '../img/dalle2.png'
+import { AppContext } from './Context'
 
 const Dalle = () => {
+  // const { resp, setResp } = useContext(AppContext);
+  const {resp} = useContext(AppContext);
 
-    return (
-        <div>
-            <img src={dalle}/>
-        </div>
-    )
+  return (
+    
+    <img src={resp}/>
+  )
 }
 
-
-export default Dalle;
+export default Dalle

@@ -24,6 +24,7 @@ const AppContextProvider = ({ children }) => {
         }
     ]);
 
+    
     const [colors, setColors] = useState([
         { value: 'red', label: 'red', disabled: false },
         { value: 'blue', label: 'blue', disabled: false },
@@ -39,9 +40,11 @@ const AppContextProvider = ({ children }) => {
     // )
     // const [userEmail] = useState(user.email);
 
+    const [resp, setResp] = useState('');
+
 
     return (
-        <AppContext.Provider value={{ players, setPlayers, colors, setColors, user, loading }}>
+        <AppContext.Provider value={{ players, setPlayers, colors, setColors, user, loading, resp, setResp }}>
             {children}
         </AppContext.Provider>
     );
