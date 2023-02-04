@@ -289,7 +289,6 @@ body {
 }
 
 /* Loader */
-
 /* Loader */
 :root{
   --main-color: #ABA1FF;
@@ -432,4 +431,21 @@ body{
   animation: ray 2s ease-out;
   animation-delay: .3s;
   border: 1px solid;
+}
+
+/*ANIMATIONS*/
+@keyframes pump {
+  0% {width: 50px; height: 50px;}
+  83% {width: 88px; height: 88px;}
+  85% {width: 90px; height: 90px;}
+  100% {width: 50px; height: 50px;}
+}
+@keyframes ray {
+  0% {width: 10px; height: 10px; opacity: 1; border-width: 1px;}
+  100% {width: 200px; height: 200px; opacity: 0; border-width: 5px;}
+}
+@keyframes particle {
+  0% {left:0%; top:0%; opacity: 0;}
+  70% {opacity: 1;}
+  100% {left:50%; top:50%; opacity: 1;}
 }
